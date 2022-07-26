@@ -37,6 +37,6 @@ Encapsulated `UITableView`, `UIScrollView`, `UICollectionView` can also be used
 You can add RefreshableScrollView to an Xcode project by adding it as a package dependency.
 
 1. From the File menu, select Swift Packages › Add Package Dependency…
-2. Enter https://github.com/HumorousGhost/KeyboardHost into the package repository URL text field
+2. Enter https://github.com/HumorousGhost/RefreshableScrollView into the package repository URL text field
 3. Link RefreshableScrollView to your application target
 
