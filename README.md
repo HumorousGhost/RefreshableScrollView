@@ -16,24 +16,26 @@ Encapsulated `UITableView`, `UIScrollView`, `UICollectionView` can also be used
 ## Usage
 
 ```swift
+        class ViewModel: ObservableObject {
+        @Published var isRefresh: Bool = false
+    }
+    
     let array = ["text1", "text2", "text3"]
-    @State private var isResresh: Bool = false
+    @StateObject private var vm = ViewModel()
     
     var body: some View {
-        ScrollViewReader { proxy in
-            List {
-                ForEach(0..<array.count) { index in
-                    let text = array[index]
-                    HStack {
-                        Text(text)
-                    }
+        List {
+            ForEach(0..<array.count) { index in
+                let text = array[index]
+                HStack {
+                    Text(text)
                 }
             }
-            .pullToRefresh($isResresh) {
-                // refresh done
-                DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
-                    isResresh = false
-                }
+        }
+        .pullToRefresh($vm.isRefresh) {
+            // refresh done
+            DispatchQueue.main.asyncAfter(deadline: .now() + 5.0) {
+                vm.isRefresh = false
             }
         }
     }
