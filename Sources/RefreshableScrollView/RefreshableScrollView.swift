@@ -33,8 +33,8 @@ public struct RefreshableScrollView: UIViewRepresentable {
                 }
             } else {
                 let refreshControl = UIRefreshControl()
+                refreshControl.addTarget(context.coordinator, action: #selector(Coordinator.handleRefreshControl), for: .valueChanged)
                 scrollView.refreshControl = refreshControl
-                scrollView.delegate = context.coordinator
             }
         }
     }
@@ -58,20 +58,14 @@ public struct RefreshableScrollView: UIViewRepresentable {
         
         var isRefreshing: Binding<Bool>
         var action: (() -> Void)?
-        
         init(_ isRefreshing: Binding<Bool>, action: (() -> Void)?) {
             self.isRefreshing = isRefreshing
             self.action = action
         }
-        
-        public func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
-            if isRefreshing.wrappedValue {
-                return
-            }
-            if let refreshControl = scrollView.refreshControl, refreshControl.isRefreshing {
-                isRefreshing.wrappedValue = true
-                self.action?()
-            }
+
+        @objc fileprivate func handleRefreshControl() {
+            isRefreshing.wrappedValue = true
+            action?()
         }
     }
 }
