@@ -58,7 +58,6 @@ public struct RefreshableScrollView: UIViewRepresentable {
         
         var isRefreshing: Binding<Bool>
         var action: (() -> Void)?
-
         init(_ isRefreshing: Binding<Bool>, action: (() -> Void)?) {
             self.isRefreshing = isRefreshing
             self.action = action
