@@ -58,7 +58,6 @@ public struct RefreshableScrollView: UIViewRepresentable {
         
         var isRefreshing: Binding<Bool>
         var action: (() -> Void)?
-        private var offset: CGFloat = 0
         
         init(_ isRefreshing: Binding<Bool>, action: (() -> Void)?) {
             self.isRefreshing = isRefreshing
@@ -69,11 +68,10 @@ public struct RefreshableScrollView: UIViewRepresentable {
             if isRefreshing.wrappedValue {
                 return
             }
-            if offset - scrollView.contentOffset.y < 40 {
-                return
+            if let refreshControl = scrollView.refreshControl, refreshControl.isRefreshing {
+                isRefreshing.wrappedValue = true
+                self.action?()
             }
-            isRefreshing.wrappedValue = true
-            self.action?()
         }
     }
 }
